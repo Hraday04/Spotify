@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify-Music Player</title>
+
+    <link rel="stylesheet" href="spotify.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <div class="sidebar">
+            <div class="nav">
+                <div class="nav-option"  style="opacity: 1;">
+                    <i class="fa-solid fa-house"></i>
+                    <a href="#">Home</a>
+                </div>
+
+                <div class="nav-option">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <a href="#">Search</a>
+                </div>
+
+            </div>
+
+            <div class="library">
+
+                <div class="options">
+                    <div class="lib-option nav-option">
+                       <img src="library_icon.png">
+                        <a href="#">Your Library</a>
+
+                        <div class="icons">
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                </div>
+                <div class="lib-box"></div>
+                <div class="box">
+                <p class="box-p1">Create your Playlist</p>
+                <p class="box-p2">It's easy,We'll help you</p>
+                <button class="badge">Create Playlist</button>
+                 </div>
+
+                <div class="box">
+                <p class="box-p1">Let's find some podcasts</p>
+                <p class="box-p2">We'll keep you updated</p>
+                <button class="badge">Browse Podcasts</button>
+                 </div>
+
+            </div>
+        </div>
+
+
+        <div class="main-content">
+            <div class="sticky-nav">
+                <img src="backward_icon.png">
+                <img src="forward_icon.png">
+               
+                <button class="badge">Explore Premium</button>
+                <button class="badge">Install app</button>
+            </div>
+            <div class="cards"></div>
+        </div>
+
+        <div class="music-player">
+            
+            <div class="album">
+                <img src="song.jpeg" height="50px">
+                <h4>Sweet Dreams</h4>
+                <h3>Annie Lenox</h3>
+            </div>
+            <div class="player">
+                <div class="player-controls">
+                    <i class="fa-solid fa-backward" class="player-control-icon"></i> 
+                    <i class="fa-solid fa-play" onclick="playPause()" id="ctrlIcon" class="player-control-icon" style="opacity: 1;" id="play"></i>
+                    <i class="fa-solid fa-forward" class="player-control-icon"></i>  
+                    <!-- <img src="player_icon4.png" class="player-control-icon"> -->
+                    <!-- <img src="player_icon5.png" class="player-control-icon"> -->
+                </div>
+                <div class="playback-bar">
+                    <!-- <span class="curr-time">00:00</span> -->
+                    <p id="currentTime">0:00</p>
+                        <input type="range" class="progress" id="progress" name="progress">
+                        <!-- <span class="tot-time">03:33</span> -->
+                   
+                </div>
+            </div>
+          
+            <audio id="song">
+                <source src="sweet-dreams.mp3" type="audio/mpeg">
+                <source src="Bye-bye-bye.mp3" type="audio/mpeg">
+            </audio>
+
+            
+            <div class="controls"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+let progress = document.getElementById('progress');
+    let song = document.getElementById('song');
+    let ctrlIcon = document.getElementById('ctrlIcon');
+    
+    song.onloadedmetadata = function() {
+        progress.max = song.duration;
+        progress.value = song.currentTime;
+    }
+    
+    function playPause(){
+        if (ctrlIcon.classList.contains('fa-pause')){
+            song.pause();
+            ctrlIcon.classList.remove('fa-pause');
+            ctrlIcon.classList.add('fa-play');
+        }
+        else{
+            song.play();
+            ctrlIcon.classList.add('fa-pause');
+            ctrlIcon.classList.remove('fa-play');
+        }
+    }
+
+    if(song.play()){
+        setInterval(() => {
+            progress.value = song.currentTime;
+        },0.1);
+    }
+
+    progress.onchange = function(){
+        song.play(); 
+        song.currentTime = progress.value;
+        ctrlIcon.classList.add('fa-pause');
+        ctrlIcon.classList.remove('fa-play');
+    }
+
+    const audio = document.getElementById("song");
+const currentTimeDisplay = document.getElementById("currentTime");
+
+audio.addEventListener("timeupdate", function() {
+  const currentTime = audio.currentTime;
+  const minutes = Math.floor(currentTime / 60);
+  const seconds = Math.floor(currentTime % 60);
+  const formattedTime = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  currentTimeDisplay.textContent = formattedTime;
+});
+
+</script>
+</body>
+</html>
